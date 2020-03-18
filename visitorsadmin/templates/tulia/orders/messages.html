@@ -42,8 +42,9 @@
 
                           <fieldset>
                               <h5>Reply: </h5>
-                              <form id="" method="POST" action="" enctype="multipart/form-data">
+                              <form id="" method="POST" action="{% url 'VisitorsAdmin:replymessages' %}" enctype="multipart/form-data">
                                   {% csrf_token %}
+                                  <input type="email" name="email" hidden value="{{ message.email }}">
                                   <div class="form-group has-feedback col-sm-12">
                                       <label class="control-label" for="name">Subject <small class="text-danger">*</small></label>
                                       <input  required type="text" name="subject" class="form-control has-success" id="name" aria-describedby="name" placeholder="Subject">

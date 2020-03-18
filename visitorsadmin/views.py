@@ -2,11 +2,13 @@ import sweetify
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from visitorsadmin.forms import *
+from visitorsrecording import settings
 
 
 def home(request):
@@ -362,3 +364,28 @@ def deletemessages(request, messsage_id):
     else:
         sweetify.error(request, title='Error' 'Error Deleting', button='ok', timer=5000)
     return redirect('VisitorsAdmin:messages')
+
+
+def replymessages(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email, ]
+        subject = subject
+        body = message
+        k = send_mail(
+            subject=subject,
+            message=body,
+            from_email=email_from,
+            recipient_list=recipient_list,
+
+        )
+        print(k)
+        sweetify.success(request, 'Successfully sent', timer=3000)
+        return redirect('VisitorsAdmin:messages')
+    else:
+        sweetify.error(request, title='Error' 'Error sending', button='ok', timer=5000)
+        return redirect('VisitorsAdmin:messages')

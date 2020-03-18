@@ -36,6 +36,7 @@ urlpatterns = [
     path('Listbookings', views.listbookings, name='Listbookings'),
 
     path('messages', views.viewmessages, name='messages'),
+    path('replymessages', views.replymessages, name='replymessages'),
     path('deletemessages<int:messsage_id>', views.deletemessages, name='deletemessage'),
 
 ]
