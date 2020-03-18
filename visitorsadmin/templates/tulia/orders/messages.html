@@ -1,0 +1,179 @@
+{% extends 'tulia/dashboard/dashboard.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+    <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Messages</h2>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Modal -->
+                {% for message in messagess %}
+                <div class="modal fade" id="productedit{{ message.id }}" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" style="margin-right: auto">&times;</button>
+                          <h4 class="modal-title">View Messsage</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-sm-12" style="height: 200px;">
+                                <h5>Subject: </h5>
+                                <div class="row px-5">
+                                    <h4>{{ message.subject|title }}</h4>
+                                </div>
+                                <h5>Message: </h5>
+                                <div class="row px-5">
+                                    <p>{{ message.msg|title }}</p>
+                                </div>
+
+                            </div>
+
+                          <fieldset>
+                              <h5>Reply: </h5>
+                              <form id="" method="POST" action="" enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                  <div class="form-group has-feedback col-sm-12">
+                                      <label class="control-label" for="name">Subject <small class="text-danger">*</small></label>
+                                      <input  required type="text" name="subject" class="form-control has-success" id="name" aria-describedby="name" placeholder="Subject">
+                                  </div>
+                                  <div class="form-group has-feedback col-sm-12">
+                                      <label class="control-label" for="name">Message <small class="text-danger">*</small></label>
+                                      <textarea name="message" id="ff" style="width: 100%" cols="" rows="10"></textarea>
+                                  </div>
+
+
+
+                                  <div class="col-sm-12">
+                                      <button type="submit" class="btn btn-lg btn-success">Reply</button>
+                                      <button type="reset" class="btn btn-lg btn-danger">Reset</button>
+                                  </div>
+                              </form>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- ============================================================== -->
+                    <!-- basic table  -->
+                    <!-- ============================================================== -->
+
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Messages</h5>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                 {% if messagess|length > 0 %}
+                                    <div class="main-chart" id="line-chart" style="padding: 10px">
+
+                                       <table id="" class="example table table-striped table-bordered" style="">
+                                            <thead>
+                                                <tr class="text-capitalize">
+                                                    <th>#</th>
+                                                    <th>First_name</th>
+                                                    <th>Last_name</th>
+                                                    <th>Email</th>
+                                                    <th>Subject</th>
+                                                    <th>Created At</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for message in messagess %}
+                                                    <tr class="text-center ">
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td class="product-details text-capitalize" style="">{{ message.first_name }}</td>
+                                                        <td class="product-details text-capitalize" style="">{{ message.last_name }}</td>
+                                                        <td class="product-details" style="">{{ message.email }}</td>
+                                                        <td class="product-details" style="">{{ message.subject }}</td>
+                                                        <td class="product-details" style="">{{ message.created_at|naturaltime}}</td>
+                                                        <td>
+                                                            <a href="" class="btn btn-success" data-toggle="modal" data-target="#productedit{{ message.id }}"><i class="fas fa-pencil-alt"></i> View</a>
+                                                            <a href="{% url 'VisitorsAdmin:deletemessage' message.id %}"  class="btn btn-danger"><i class="fas fa-trash " style="padding-right: 2px"></i>Delete message</a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                       </table>
+                                    </div>
+                                {% else %}
+                                    <div class="row mt-2 d-flex justify-content-center align-content-center align-items-center">
+                                         <div class="col-sm-3" style="height: 500px; width: 474px; border: none;margin: 20px; overflow: hidden; text-align: center;">
+                                             <h1>No Messsages</h1>
+                                             <img class="img-fluid w-100 h-100" src="" alt="">
+                                         </div>
+                                    </div>
+                                {% endif %}
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ============================================================== -->
+                    <!-- end basic table  -->
+                    <!-- ============================================================== -->
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+{% endblock content %}
+
+  {% block scripts %}
+      <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.blah')
+                            .attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+      </script>
+    {% endblock scripts %}

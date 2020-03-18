@@ -1,0 +1,233 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+        <!-- Start Header -->
+		<div id="home" class="welcome-slider-area">
+			<div class="slider-active owl-carousel">
+                {% for carousel in carousels %}
+				<div class="single-slider" style="background-image:url({{ carousel.image.url }})">
+					<div class="slider-title">
+						<div class="table-cell">
+
+							<h2 class="slider-title-animation">WELLCOME <span>VISITOR</span> TO VISITOR</h2>
+							<p class="slider-animation-up">{{carousel.description}}<br>
+
+							</p>
+							<div class="button-group slider-animation-up">
+								<a class="btn btn-normal-border trigger-btn" href="#myModal2{{ carousel.id }}" data-toggle="modal">REGISTER</a>
+								<a class="btn btn-normal trigger-btn" href="#myModal{{ carousel.id }}" data-toggle="modal" >LOGIN</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+                {% endfor %}
+			</div>
+		</div>
+		<!--/End Header -->
+                {% for carousel in carousels %}
+                    <div id="myModal{{ carousel.id }}" class="modal fade">
+                        <div class="modal-dialog modal-login">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="avatar">
+                                        <img style="width: 100%; height: 100%;" src="{% static 'assets/images/fd0c559856ca991e9e28937dc802f0b0.png' %}" alt="Avatar">
+                                    </div>
+                                    <h4 class="modal-title">Member Login</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'Visitors:login' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="username" placeholder="Username or Email" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#">Forgot Password?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="myModal2{{ carousel.id }}" class="modal fade">
+                        <div class="modal-dialog modal-login">
+                            <div class="modal-content modal-lg" style="width: 480px">
+                                <div class="modal-header">
+                                    <div class="avatar">
+                                        <img style="width: 100%; height: 100%;" src="{% static 'assets/images/fd0c559856ca991e9e28937dc802f0b0.png' %}" alt="Avatar">
+                                    </div>
+                                    <h4 class="modal-title">Member Register</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                      {% if form.errors %}
+                                        <div class="alert alert-danger alert-dismissable">
+                                          <h5>Please fix the following errors</h5>
+                                          <ul>
+                                            {% for key,value in form.errors.items %}
+                                              <li>{{ key|escape }} : {{ value|escape }}</li>
+                                            {% endfor %}
+                                          </ul>
+                                          {% if form.non_field_errors %}
+                                            {{ form.non_field_errors }}
+                                          {% endif %}
+                                        </div>
+                                      {% endif %}
+                                    <form action="{% url 'Visitors:register' %}" method="POST">
+                                    {% csrf_token %}
+
+                                        <div class="form-row">
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}" type="text" name="first_name" id="inputFName" class="form-control" placeholder="Visitor's First Name" required autofocus>
+                                            </div>
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}" type="text" name="last_name" id="inputLName" class="form-control" placeholder="Visitor's Last Name" required autofocus>
+                                            </div>
+
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.email.value %}{{ form.email.value }}{% endif %}" type="email" name="email" id="inputEmail" class="form-control" placeholder="Visitor's Email" required>
+                                            </div>
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.username.value %}{{ form.username.value }}{% endif %}" type="text" name="username" id="username" class="form-control" placeholder="Visitor's Username" required>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.id_no.value %}{{ form.id_no.value }}{% endif %}" type="number" name="id_no" maxlength="8" id="inputid" class="form-control" placeholder="Visitor's ID number" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.phone_number.value %}{{ form.phone_number.value }}{% endif %}" type="tel" name="phone_number" id="inputNumber" class="form-control" placeholder="Visitor's Mobile Number" required autofocus>
+                                            </div>
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.person_to_meet.value %}{{ form.person_to_meet.value }}{% endif %}" type="text" name="person_to_meet" id="inputPersonName" class="form-control" placeholder="Name of Person To Meet" required autofocus>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.date_from.value %}{{ form.date_from.value }}{% endif %}" type="date" name="date_from" id="fromTime" class="form-control" placeholder="From time" required autofocus>
+                                            </div>
+                                            <div class="form-group w-100">
+                                                <input value="{% if form.date_to.value %}{{ form.date_to.value }}{% endif %}" type="date" name="date_to" id="toTime" class="form-control" placeholder="To time" required autofocus>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group large w-100">
+                                                <textarea  rows="4" cols="41" name="address" class="form-control" id="inputAddress" placeholder="Visitor's Address here...">{% if form.address.value %}{{ form.address.value }}{% endif %}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group w-100">
+                                                <input type="password" name="password1" id="password1" class="form-control" placeholder="Password" required autofocus>
+                                            </div>
+                                            <div class="form-group w-100">
+                                                <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm Password" required autofocus>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Register</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+		<!-- Start About us Area -->
+		<section id="about-us" class="">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="about-content">
+							<h2>About <span > US </span></h2>
+							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only</p>
+							<p>tronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop </p>
+							<div class="about-button wow fadeIn">
+{#								<a class="btn btn-color" href="#">Learn More</a>#}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- /End About us Area -->
+		<!-- Footer top Area -->
+		<section id="contacts" class="section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="section-title wow fadeInDown">
+							<h2>Contact <span > US</span ></h2>
+							<div class="border-line">
+								<span class="border-box"></span>
+							</div>
+							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="footer-single-contact">
+							<div class="address-single-contact">
+								<h6>Address:</h6>
+								<p>309, Vandar Market, Level-6, Room-10</p>
+								<p>SK Mujib Road,Agrabad , Chittagong,Bangladesh</p>
+							</div>
+							<div class="address-single-contact">
+								<h6>Customer Support</h6>
+								<p>Phone : +880 1676 966 260</p>
+								<p>mail : support@domainname.com</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="footer-single-contact">
+							<div class="contact-form">
+								<form id="contact-form" method="post" enctype="multipart/form-data" action="{% url 'Visitors:contuctus' %}">
+
+									<div class="row">
+                                        {% csrf_token %}
+
+										<div class="form-group col-md-6">
+											<input type="text" name="first_name" class="form-control pl-icon" id="first-name" placeholder="&#xf2c0; your first name" required />
+										</div>
+                                        <div class="form-group col-md-6">
+											<input type="text" name="last_name" class="form-control pl-icon" id="last-name" placeholder="&#xf2c0; your last name" required />
+										</div>
+
+										<div class="form-group col-md-12">
+											<input type="email" name="email" class="form-control pl-icon" id="email" placeholder="&#xf003; your email" required />
+										</div>
+										<div class="form-group col-md-12">
+											<input type="text" name="subject" class="form-control pl-icon" id="subject" placeholder="&#xf040; your subject" required />
+										</div>
+										<div class="form-group col-md-12">
+											<textarea rows="3" name="msg" class="form-control pl-icon" id="description" placeholder="&#xf0e5; your message" required ></textarea>
+										</div>
+										<div class="col-md-12">
+											<div class="actions wow fadeIn" data-wow-delay=".4s">
+												<input type="submit" value="send message" name="submit" id="submitButton" class="btn btn-lg contact-btn" title="Submit Your Message!">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- /End Footer top Area -->
+{% endblock content %}
