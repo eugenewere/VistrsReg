@@ -34,9 +34,18 @@ urlpatterns = [
     path('Listconferences', views.listconferences, name='Listconferences'),
     path('Listmessagess', views.listmessagess, name='Listmessagess'),
     path('Listbookings', views.listbookings, name='Listbookings'),
+    path('Listuserbookings', views.listuserbookings, name='Listuserbookings'),
+    path('Listuserroomsbookings', views.listuserroomsbookings, name='Listuserroomsbookings'),
+    path('Listuserconferencebookings', views.listuserconferencebookings, name='Listuserconferencebookings'),
 
     path('messages', views.viewmessages, name='messages'),
     path('replymessages', views.replymessages, name='replymessages'),
     path('deletemessages<int:messsage_id>', views.deletemessages, name='deletemessage'),
+
+
+    path('bookroom<int:room_id>', views.bookroom, name='bookroom'),
+    path('bookconference<int:conference_id>', views.bookconference, name='bookconference'),
+
+
 
 ]

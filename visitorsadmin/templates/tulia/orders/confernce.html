@@ -1,6 +1,7 @@
 {% extends 'tulia/dashboard/dashboard.html' %}
 {% load humanize %}
 {% load static %}
+{% load call_method %}
 {% block content %}
     <div class="dashboard-wrapper">
             <div class="container-fluid  dashboard-content">
@@ -117,7 +118,11 @@
 
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Conference <a href="#" class="btn-success btn pull-right" data-toggle="modal" data-target="#productadd">Add Conference </a></h5>
+                            <h5 class="card-header">Conference
+                                {% if  request|if_admin %}
+                                <a href="#" class="btn-success btn pull-right" data-toggle="modal" data-target="#productadd">Add Conference </a>
+                                {% endif %}
+                            </h5>
                             <div class="card-body">
                                 <div class="table-responsive">
                                  {% if conferences|length > 0 %}
@@ -150,7 +155,10 @@
                                                         <td class="product-details" style="">{{ conference.size}}</td>
                                                         <td class="product-details" style="">{{ conference.created_at|naturaltime}}</td>
                                                         <td class="product-details" style="">
-                                                            <div class="btn-group dropdown">
+                                                            {% if not request|if_admin %}
+                                                                {{ conference.status }}
+                                                            {% else %}
+                                                                <div class="btn-group dropdown">
                                                               <button type="button" class="btn
                                                               {% if conference.status == 'AVAILABLE' %}
                                                                      btn-success
@@ -169,11 +177,20 @@
                                                                 {% endif %}
                                                               </div>
                                                             </div>
+                                                            {% endif %}
                                                         </td>
 
                                                         <td>
+                                                            {% if request|if_admin %}
                                                             <a href="" class="btn btn-success" data-toggle="modal" data-target="#productedit{{ conference.id }}"><i class="fas fa-pencil-alt"></i> Edit</a>
                                                             <a href="{% url 'VisitorsAdmin:deleteconference' conference.id %}"  class="btn btn-danger"><i class="fas fa-trash " style="padding-right: 2px"></i>Delete conference</a>
+                                                            {% else %}
+                                                                {% if conference.status == 'AVAILABLE' %}
+                                                                <a href="{% url 'VisitorsAdmin:bookconference' conference.id %}"  class="btn btn-success"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>Book Conference</a>
+                                                                {% else %}
+                                                                    <a href="{% url 'VisitorsAdmin:bookconference' conference.id %}"  class="btn btn-danger"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>UnBook Conference</a>
+                                                                {% endif %}
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}

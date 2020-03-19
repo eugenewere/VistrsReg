@@ -1,6 +1,7 @@
 {% extends 'tulia/dashboard/dashboard.html' %}
 {% load humanize %}
 {% load static %}
+{% load call_method %}
 {% block content %}
     <div class="dashboard-wrapper">
             <div class="container-fluid  dashboard-content">
@@ -10,7 +11,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Visitors</h2>
+                            <h2 class="pageheader-title">Rooms</h2>
 
                         </div>
                     </div>
@@ -107,7 +108,11 @@
 
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Room <a href="#" class="btn-success btn pull-right" data-toggle="modal" data-target="#productadd">Add Rooms </a></h5>
+                            <h5 class="card-header">Room
+                                {% if request|if_admin %}
+                                    <a href="#" class="btn-success btn pull-right" data-toggle="modal" data-target="#productadd">Add Rooms </a>
+                                {% endif %}
+                            </h5>
                             <div class="card-body">
                                 <div class="table-responsive">
                                  {% if rooms|length > 0 %}
@@ -137,31 +142,43 @@
                                                         <td class="product-details" style="width: 299px; text-transform: uppercase;">{{ room.room_name }}</td>
                                                         <td class="product-details" style="">{{ room.room_number }}</td>
                                                         <td class="product-details" style="">
-                                                            <div class="btn-group dropdown">
-                                                              <button type="button" class="btn
-                                                              {% if room.status == 'AVAILABLE' %}
-                                                                     btn-success
-                                                              {% elif room.status == 'UNAVAILABLE' %}
-                                                                     btn-danger
-                                                               {% endif %}
+                                                            {% if not request|if_admin %}
+                                                                {{ room.status }}
+                                                            {% else %}
+                                                                <div class="btn-group dropdown">
+                                                                  <button type="button" class="btn
+                                                                  {% if room.status == 'AVAILABLE' %}
+                                                                         btn-success
+                                                                  {% elif room.status == 'UNAVAILABLE' %}
+                                                                         btn-danger
+                                                                   {% endif %}
 
-                                                               dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                {{room.status}}
-                                                              </button>
-                                                              <div class="dropdown-menu">
-                                                                {% if room.status == 'AVAILABLE' %}
-                                                                    <a href="{% url 'VisitorsAdmin:editroomstatus' room.id %}">UNAVAILABLE</a>
-                                                                {% elif room.status == 'UNAVAILABLE' %}
-                                                                    <a href="{% url 'VisitorsAdmin:editroomstatus' room.id %}">AVAILABLE</a>
-                                                                {% endif %}
-                                                              </div>
-                                                            </div>
+                                                                   dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    {{room.status}}
+                                                                  </button>
+                                                                  <div class="dropdown-menu">
+                                                                    {% if room.status == 'AVAILABLE' %}
+                                                                        <a href="{% url 'VisitorsAdmin:editroomstatus' room.id %}">UNAVAILABLE</a>
+                                                                    {% elif room.status == 'UNAVAILABLE' %}
+                                                                        <a href="{% url 'VisitorsAdmin:editroomstatus' room.id %}">AVAILABLE</a>
+                                                                    {% endif %}
+                                                                  </div>
+                                                                </div>
+                                                            {% endif %}
                                                         </td>
                                                         <td class="product-details" style="">{{ room.created_at|naturaltime}}</td>
 
                                                         <td>
-                                                            <a href="" class="btn btn-success" data-toggle="modal" data-target="#productedit{{ room.id }}"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                                            <a href="{% url 'VisitorsAdmin:deleteroom' room.id %}"  class="btn btn-danger"><i class="fas fa-trash " style="padding-right: 2px"></i>Delete Room</a>
+                                                            {% if request|if_admin %}
+                                                                <a href="" class="btn btn-success" data-toggle="modal" data-target="#productedit{{ room.id }}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                                                <a href="{% url 'VisitorsAdmin:deleteroom' room.id %}"  class="btn btn-danger"><i class="fas fa-trash " style="padding-right: 2px"></i>Delete Room</a>
+                                                            {% else %}
+                                                                {% if room.status == 'AVAILABLE' %}
+                                                                <a href="{% url 'VisitorsAdmin:bookroom' room.id %}"  class="btn btn-success"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>Book Room</a>
+                                                                {% else %}
+                                                                    <a href="{% url 'VisitorsAdmin:bookroom' room.id %}"  class="btn btn-danger"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>UnBook Room</a>
+                                                                {% endif %}
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}

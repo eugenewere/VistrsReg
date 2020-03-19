@@ -59,6 +59,11 @@ class Conference(models.Model):
 class Room_visitor(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=False, blank=False)
     visitor = models.ForeignKey(Visitor, on_delete=models.CASCADE, null=False, blank=False)
+    ROOM_VISITOR_STATUS = (
+        ('BOOKED', 'Booked'),
+        ('UNBOOKED', 'Unbooked'),
+    )
+    status = models.CharField(choices=ROOM_VISITOR_STATUS, max_length=200, null=False, blank=False, default='BOOKED')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -68,6 +73,11 @@ class Room_visitor(models.Model):
 class Conference_visitor(models.Model):
     conference = models.ForeignKey(Conference, on_delete=models.CASCADE, null=False, blank=False)
     visitor = models.ForeignKey(Visitor, on_delete=models.CASCADE, null=False, blank=False)
+    CONFERENCE_VISITORS_STATUS = (
+        ('BOOKED', 'Booked'),
+        ('UNBOOKED', 'Unbooked'),
+    )
+    status = models.CharField(choices=CONFERENCE_VISITORS_STATUS, max_length=200, null=False, blank=False, default='BOOKED')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

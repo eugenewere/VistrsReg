@@ -26,6 +26,17 @@ def allmessages(request):
         return messages
     return None
 
+@register.filter(name='if_admin')
+def if_admin(request):
+    user=request.user.id
+    admin = User.objects.filter(id=user, is_superuser=True).first()
+
+    if admin:
+        return True
+    return False
+
+
+
 
 
 

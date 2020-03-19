@@ -12,6 +12,8 @@ from visitorsrecording import settings
 
 
 def home(request):
+    user= request.user
+    visitor = Visitor.objects.filter(user_ptr_id=user.id).first()
     visitors_count = Visitor.objects.count()
     room_count = Room.objects.count()
 
@@ -20,6 +22,13 @@ def home(request):
     av_conference_count = Conference.objects.filter(status='AVAILABLE').count()
     taken_room_count = Room.objects.filter(status='UNAVAILABLE').count()
     av_room_count = Room.objects.filter(status='AVAILABLE').count()
+
+    user_rooms_booked = Room_visitor.objects.filter(visitor=visitor, status='BOOKED').count()
+    user_conference_booked = Conference_visitor.objects.filter(visitor=visitor, status='BOOKED').count()
+    user_rooms_ever_booked = Room_visitor.objects.filter(visitor=visitor).count()
+    user_conference_ever_booked = Conference_visitor.objects.filter(visitor=visitor).count()
+
+
     context={
         'visitors_count':visitors_count,
         'room_count':room_count,
@@ -28,7 +37,11 @@ def home(request):
         'conference_count':conference_count,
         'taken_conference_count':taken_conference_count,
         'av_conference_count':av_conference_count,
-        'messages_count':Message.objects.count()
+        'messages_count':Message.objects.count(),
+        'user_rooms_booked':user_rooms_booked,
+        'user_conference_booked':user_conference_booked,
+        'user_rooms_ever_booked':user_rooms_ever_booked,
+        'user_conference_ever_booked':user_conference_ever_booked,
     }
 
     return render(request, 'tulia/home/index.html', context)
@@ -130,6 +143,130 @@ def editroomstatus(request, room_id):
             status='AVAILABLE',
         )
     return redirect('VisitorsAdmin:room')
+
+def bookroom(request, room_id):
+    user = request.user
+    visitor = Visitor.objects.filter(user_ptr_id=user.id).first()
+    room = Room.objects.filter(id=room_id).first()
+    if room.status == 'AVAILABLE':
+        Room_visitor.objects.create(
+            room=room,
+            visitor=visitor,
+            status='BOOKED',
+        )
+        Room.objects.filter(id=room.id).update(
+            status='UNAVAILABLE',
+        )
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [visitor.email, ]
+        subject = 'BOOKED ROOM'
+        body = 'You have booked room ' +room.room_name+ ' with room number ' +room.room_number +', ENJOY'
+        try:
+            k = send_mail(
+                subject=subject,
+                message=body,
+                from_email=email_from,
+                recipient_list=recipient_list,
+
+            )
+        except:
+            print('k')
+        sweetify.success(request, 'Successfully Booked', timer=3000)
+        return redirect('VisitorsAdmin:room')
+    # elif Room_visitor.objects.filter(visitor=visitor, room=room):
+    elif room.status == 'UNAVAILABLE':
+        bookedroom = Room_visitor.objects.filter(visitor=visitor, room=room).first()
+        Room_visitor.objects.filter(id=bookedroom.id).update(
+            status='UNBOOKED',
+        )
+        Room.objects.filter(id=room.id).update(
+            status='AVAILABLE',
+        )
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [visitor.email, ]
+        subject = 'UNBOOKED ROOM'
+        body = 'You have checkout off room ' + room.room_name + ' with room number ' + room.room_number + ', BYE'
+        try:
+            k = send_mail(
+                subject=subject,
+                message=body,
+                from_email=email_from,
+                recipient_list=recipient_list,
+
+            )
+        except:
+            print('k')
+        sweetify.error(request, 'Successfully UnBooked', timer=3000)
+        return redirect('VisitorsAdmin:room')
+    else:
+        return redirect('VisitorsAdmin:room')
+
+def bookconference(request, conference_id):
+    user = request.user
+    visitor = Visitor.objects.filter(user_ptr_id=user.id).first()
+    conference = Conference.objects.filter(id=conference_id).first()
+    if conference.status == 'AVAILABLE':
+        Conference_visitor.objects.create(
+            conference=conference,
+            visitor=visitor,
+            status='BOOKED',
+        )
+        Conference.objects.filter(id=conference.id).update(
+            status='UNAVAILABLE',
+        )
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [visitor.email, ]
+        subject = 'BOOKED CONFERENCE'
+        body = 'You have booked conference ' \
+               +conference.conference_name+ \
+               ' with conference number ' \
+               +conference.conference_number +' maximum size of '+ conference.size +', ENJOY'
+        try:
+            k = send_mail(
+                subject=subject,
+                message=body,
+                from_email=email_from,
+                recipient_list=recipient_list,
+
+            )
+        except:
+            print('k')
+        sweetify.success(request, 'Successfully Booked', timer=3000)
+        return redirect('VisitorsAdmin:conference')
+    # elif Room_visitor.objects.filter(visitor=visitor, room=room):
+    elif conference.status == 'UNAVAILABLE':
+        bookedconference = Conference_visitor.objects.filter(visitor=visitor, conference=conference).first()
+        Conference_visitor.objects.filter(id=bookedconference.id).update(
+            status='UNBOOKED',
+        )
+        Conference.objects.filter(id=conference.id).update(
+            status='AVAILABLE',
+        )
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [visitor.email, ]
+        subject = 'UNBOOKED CONFERENCE'
+        body = 'You have booked conference ' \
+               + conference.conference_name + \
+               ' with conference number ' \
+               + conference.conference_number + ' maximum size of ' + conference.size + ', ENJOY'
+        try:
+            k = send_mail(
+                subject=subject,
+                message=body,
+                from_email=email_from,
+                recipient_list=recipient_list,
+
+            )
+        except:
+            print('k')
+        sweetify.error(request, 'Successfully UnBooked', timer=3000)
+        return redirect('VisitorsAdmin:conference')
+    else:
+        return redirect('VisitorsAdmin:conference')
+
+
+
+
 
 def conference(request):
     conferences = Conference.objects.all()
@@ -347,6 +484,115 @@ def listbookings(request):
     }
     return JsonResponse(context2)
 
+def listuserroomsbookings(request):
+    user = request.user.id
+    import datetime
+    month_data = []
+
+    months_choices = []
+    months_choices_int = []
+    for i in range(1, 13):
+        months_choices.append((datetime.date(2008, i, 1).strftime('%B')[0:3]))
+
+    labels2 = months_choices
+
+    for z in range(1, 13):
+        months_choices_int.append((datetime.date(2008, z, 1).strftime('%m')))
+    visitor = Visitor.objects.filter(user_ptr_id=user).first()
+    for months_choice in months_choices_int:
+        month_data.append(Room_visitor.objects.filter(created_at__month=months_choice, visitor=visitor).count())
+
+
+
+
+
+    defaultData2 = month_data
+
+    context2 = {
+        'labels2': labels2,
+        'defaultData23': defaultData2,
+
+
+    }
+    return JsonResponse(context2)
+
+def listuserconferencebookings(request):
+    user = request.user.id
+    import datetime
+    month_data = []
+
+    months_choices = []
+    months_choices_int = []
+    for i in range(1, 13):
+        months_choices.append((datetime.date(2008, i, 1).strftime('%B')[0:3]))
+
+    labels2 = months_choices
+
+    for z in range(1, 13):
+        months_choices_int.append((datetime.date(2008, z, 1).strftime('%m')))
+    visitor = Visitor.objects.filter(user_ptr_id=user).first()
+    for months_choice in months_choices_int:
+        month_data.append(Conference_visitor.objects.filter(created_at__month=months_choice, visitor=visitor).count())
+
+
+
+
+
+    defaultData2 = month_data
+
+    context2 = {
+        'labels2': labels2,
+        'defaultData23': defaultData2,
+
+
+    }
+    return JsonResponse(context2)
+
+
+
+
+
+
+
+
+
+
+
+def listuserbookings(request):
+    user = request.user.id
+    import datetime
+    month_data = []
+    month_data2 = []
+    months_choices = []
+    months_choices_int = []
+    for i in range(1, 13):
+        months_choices.append((datetime.date(2008, i, 1).strftime('%B')[0:3]))
+
+    labels2 = months_choices
+
+    for z in range(1, 13):
+        months_choices_int.append((datetime.date(2008, z, 1).strftime('%m')))
+    visitor = Visitor.objects.filter(user_ptr_id=user).first()
+    for months_choice in months_choices_int:
+        month_data.append(Room_visitor.objects.filter(created_at__month=months_choice, visitor=visitor).count())
+
+    for months_choice in months_choices_int:
+        month_data2.append(Conference_visitor.objects.filter(created_at__month=months_choice, visitor=visitor).count())
+
+
+
+    defaultData2 = month_data
+    defaultData3 = month_data2
+    context2 = {
+        'labels2': labels2,
+        'defaultData23': defaultData2,
+        'defaultData33': defaultData3,
+
+    }
+    return JsonResponse(context2)
+
+
+
 
 def viewmessages(request):
     messagess=Message.objects.all().order_by('-created_at')
@@ -389,3 +635,5 @@ def replymessages(request):
     else:
         sweetify.error(request, title='Error' 'Error sending', button='ok', timer=5000)
         return redirect('VisitorsAdmin:messages')
+
+

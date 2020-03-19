@@ -1,5 +1,6 @@
 {% extends 'tulia/dashboard/dashboard.html' %}
 {% load static %}
+{% load call_method %}
 
 {% block content %}
     <div class="dashboard-wrapper">
@@ -30,105 +31,106 @@
                     <div class="ecommerce-widget">
 
                         <div class="row">
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Total Visitors</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ visitors_count }}</h1>
+                            {% if  request|if_admin %}
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Total Visitors</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ visitors_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+    {#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-{#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Total Rooms</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ room_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Total Rooms</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ room_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+    {#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-{#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue2"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue2"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Total Confrences</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ conference_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Total Confrences</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ conference_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+    {#                                            <span>N/A</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
-{#                                            <span>N/A</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue3"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue3"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Taken Rooms</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{taken_room_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Taken Rooms</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{taken_room_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+    {#                                            <span>-2.00%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-{#                                            <span>-2.00%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue4"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue4"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Taken Conferences</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ taken_conference_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Taken Conferences</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ taken_conference_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+    {#                                            <span>-2.00%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-{#                                            <span>-2.00%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue4"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue4"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Vacant Conferences</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ av_conference_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Vacant Conferences</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ av_conference_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+    {#                                            <span>-2.00%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-{#                                            <span>-2.00%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue4"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue4"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Vacant Rooms</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h1 class="mb-1">{{ av_room_count }}</h1>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Vacant Rooms</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ av_room_count }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+    {#                                            <span>-2.00%</span>#}
+                                            </div>
                                         </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-{#                                            <span>-2.00%</span>#}
-                                        </div>
+    {#                                    <div id="sparkline-revenue4"></div>#}
                                     </div>
-{#                                    <div id="sparkline-revenue4"></div>#}
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="text-muted">Messages</h5>
@@ -142,6 +144,65 @@
 {#                                    <div id="sparkline-revenue4"></div>#}
                                 </div>
                             </div>
+                            {% else %}
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Rooms Booked</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ user_rooms_booked }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+    {#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
+                                            </div>
+                                        </div>
+    {#                                    <div id="sparkline-revenue"></div>#}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Conference Booked</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ user_conference_booked }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+    {#                                            <span><i class="fa fa-fw fa-arrow-up"></i></span><span>5.86%</span>#}
+                                            </div>
+                                        </div>
+    {#                                    <div id="sparkline-revenue2"></div>#}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Total Confrences Ever Booked</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{ user_conference_ever_booked }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-primary font-weight-bold">
+    {#                                            <span>N/A</span>#}
+                                            </div>
+                                        </div>
+    {#                                    <div id="sparkline-revenue3"></div>#}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="text-muted">Total Rooms Ever Booked</h5>
+                                            <div class="metric-value d-inline-block">
+                                                <h1 class="mb-1">{{user_rooms_ever_booked }}</h1>
+                                            </div>
+                                            <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
+    {#                                            <span>-2.00%</span>#}
+                                            </div>
+                                        </div>
+    {#                                    <div id="sparkline-revenue4"></div>#}
+                                    </div>
+                                </div>
+
+                            {% endif %}
 
 
                         </div>
@@ -156,6 +217,7 @@
                             <!-- ============================================================== -->
                             <!-- customer acquistion  -->
                             <!-- ============================================================== -->
+                            {% if request|if_admin %}
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <h5 class="card-header">Visitors Join By Date</h5>
@@ -188,14 +250,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">Bookings</h5>
-                                    <div class="card-body">
-                                        <canvas class="main-chart" id="bookingschart" height="200" width="600"></canvas>
+                            {% endif %}
+                            {% if request|if_admin %}
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="card">
+                                        <h5 class="card-header">Bookings</h5>
+                                        <div class="card-body">
+                                            <canvas class="main-chart" id="bookingschart" height="200" width="600"></canvas>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% else %}
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <h5 class="card-header">Rooms Booked by me</h5>
+                                        <div class="card-body">
+                                            <canvas class="main-chart" id="userbookedroomschart" height="200" width="600"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card">
+                                        <h5 class="card-header">Conference Booked me</h5>
+                                        <div class="card-body">
+                                            <canvas class="main-chart" id="userbookedconferenceschart" height="200" width="600"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="card">
+                                        <h5 class="card-header">User Bookings</h5>
+                                        <div class="card-body">
+                                            <canvas class="main-chart" id="userbookingschart" height="200" width="600"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
 
 
                             <!-- ============================================================== -->
@@ -389,6 +479,85 @@
         }
         </script>
      <script>
+        var endpoint2 = '{% url 'VisitorsAdmin:Listuserroomsbookings' %}';
+        var defaultData2 =  [];
+        var labels2 = [];
+        $.ajax({
+            method: "GET",
+            url : endpoint2,
+            success : function (data) {
+                labels2 = data.labels2;
+                defaultData23= data.defaultData23;
+                setuzerRoomsChart();
+                setOrderChartlineseller();
+
+                // console.log(data);
+            },
+            error : function (error_data) {
+                console.log(error);
+                console.log(error_data);
+            },
+        });
+
+        function setuzerRoomsChart() {
+            var ctx = document.getElementById('userbookedroomschart').getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels2,
+                datasets: [{
+                    label: 'Room',
+
+                    data: defaultData23,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(129,255,46)',
+                        'rgb(255,217,66)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(129,255,46)',
+                        'rgb(255,217,66)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+
+
+                            stepSize: 1,
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        }
+        </script>
+
+     <script>
         var endpoint2 = '{% url 'VisitorsAdmin:Listconferences' %}';
         var defaultData2 =  [];
         var labels2 = [];
@@ -467,6 +636,87 @@
         });
         }
         </script>
+     <script>
+        var endpoint2 = '{% url 'VisitorsAdmin:Listuserconferencebookings' %}';
+        var defaultData2 =  [];
+        var labels2 = [];
+        $.ajax({
+            method: "GET",
+            url : endpoint2,
+            success : function (data) {
+                labels2 = data.labels2;
+                defaultData23= data.defaultData23;
+                setuserConferenceChart();
+                setOrderChartlineseller();
+
+                // console.log(data);
+            },
+            error : function (error_data) {
+                console.log(error);
+                console.log(error_data);
+            },
+        });
+
+        function setuserConferenceChart() {
+            var ctx = document.getElementById('userbookedconferenceschart').getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels2,
+                datasets: [{
+                    label: 'Conferences',
+
+                    data: defaultData23,
+                    backgroundColor: [
+                        'rgb(129,255,46)',
+                        'rgb(255,217,66)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(129,255,46)',
+                        'rgb(255,217,66)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+
+
+                            stepSize: 1,
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        }
+        </script>
+
+
      <script>
         var endpoint2 = '{% url 'VisitorsAdmin:Listmessagess' %}';
         var defaultData2 =  [];
@@ -581,7 +831,6 @@
                     data: defaultData23,
                     backgroundColor: [
                         'rgba(255, 159, 64, 1)',
-
                         'rgb(255,217,66)',
                         'rgb(255,131,255)',
                         'rgb(1,53,255)',
@@ -617,7 +866,91 @@
                     data: defaultData33,
                     backgroundColor: [
                         'rgba(255, 159, 64, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(255,217,66)',
+                        'rgb(145,255,39)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgb(129,255,46)',
+                        'rgb(36,255,221)',
 
+
+                    ],
+                    borderColor: [
+
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(129,255,46)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(255,217,66)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+
+                    ],
+                    borderWidth: 1
+                },
+
+                ]
+
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+
+
+                            stepSize: 1,
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        }
+        </script>
+     <script>
+        var endpoint2 = '{% url 'VisitorsAdmin:Listuserbookings' %}';
+        var defaultData2 =  [];
+        var labels2 = [];
+        $.ajax({
+            method: "GET",
+            url : endpoint2,
+            success : function (data) {
+                labels2 = data.labels2;
+                defaultData233= data.defaultData23;
+                defaultData333= data.defaultData33;
+                setbookingsuserchartChart();
+                setOrderChartlineseller();
+
+                // console.log(data);
+            },
+            error : function (error_data) {
+                console.log(error);
+                console.log(error_data);
+            },
+        });
+
+        function setbookingsuserchartChart() {
+            var ctx = document.getElementById('userbookingschart').getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels2,
+                datasets: [
+                    {
+                    label: 'Rooms',
+                    data: defaultData233,
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 1)',
                         'rgb(255,217,66)',
                         'rgb(255,131,255)',
                         'rgb(1,53,255)',
@@ -642,6 +975,43 @@
                         'rgb(255,131,255)',
                         'rgb(1,53,255)',
                         'rgba(255, 159, 64, 1)',
+                        'rgb(36,255,221)',
+                        'rgb(145,255,39)',
+
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Conferences',
+                    data: defaultData333,
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(255,217,66)',
+                        'rgb(145,255,39)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgb(129,255,46)',
+                        'rgb(36,255,221)',
+
+
+                    ],
+                    borderColor: [
+
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgb(129,255,46)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgb(255,131,255)',
+                        'rgb(1,53,255)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgb(255,217,66)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
                         'rgb(36,255,221)',
                         'rgb(145,255,39)',
 
