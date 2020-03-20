@@ -2,7 +2,7 @@
 {% load humanize %}
 <html lang="en">
     <head>
-        <title>Room </title>
+        <title>Conference </title>
         <style type="text/css">
             body {
                 font-weight: 200;
@@ -64,7 +64,7 @@
     <body>
         <div class='wrapper'>
             <div class='header'>
-                <p class='title'>Rooms ({{ room_v.count }}) </p>
+                <p class='title'>Conference ({{ conference_v.count }}) </p>
             </div>
             <div>
                 <img src="{% static 'sitelogo/websitetitlelogo.png' %}" alt="">
@@ -75,20 +75,22 @@
                 <thead >
                     <tr class="text-capitalize">
                         <th>#</th>
-                        <th>Visitor</th>
-                        <th>Room name</th>
-                        <th>Room number</th>
+                        <th>Visitor name</th>
+                        <th>Conference name</th>
+                        <th>Conference number</th>
+                        <th>Conference size</th>
                         <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for room in room_v %}
+                    {% for conference in conference_v %}
                     <tr class="text-center ">
                         <td class="tb-data">{{ forloop.counter }}</td>
-                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }}</td>
-                        <td class="tb-data">{{ room.room.room_name }}</td>
-                        <td class="tb-data">{{ room.room.room_number }}</td>
-                        <td class="tb-data">{{ room.created_at|naturaltime }}</td>
+                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }} </td>
+                        <td class="tb-data">{{ conference.conference.conference_name }}</td>
+                        <td class="tb-data">{{ conference.conference.conference_number }}</td>
+                        <td class="tb-data">{{ conference.conference.size }}</td>
+                        <td class="tb-data">{{ conference.created_at|naturaltime }}</td>
 
                     </tr>
                     {% endfor %}

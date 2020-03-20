@@ -36,9 +36,27 @@ def if_admin(request):
     return False
 
 
+@register.filter(name='if_user_has_booked_a_room')
+def if_user_has_booked_a_room(request, room_id):
+    user = request.user
+    room = Room.objects.filter(id=room_id).first()
+    visitor = Visitor.objects.filter(user_ptr_id=user.id).first()
+    v_room = Room_visitor.objects.filter(visitor=visitor, room=room, status='BOOKED').last()
+    if v_room:
+        return True
+    else:
+        return False
 
-
-
+@register.filter(name='if_user_has_booked_a_conference')
+def if_user_has_booked_a_conference(request, conference_id):
+    user = request.user
+    conference = Conference.objects.filter(id=conference_id).first()
+    visitor = Visitor.objects.filter(user_ptr_id=user.id).first()
+    v_room =Conference_visitor.objects.filter(visitor=visitor, conference=conference, status='BOOKED').last()
+    if v_room:
+        return True
+    else:
+        return False
 
 
 

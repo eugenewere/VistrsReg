@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <title>Visitors</title>
 </head>
 
@@ -78,7 +79,9 @@
                                     {% endif %} </h5>
 {#                                    <span class="status"></span><span class="ml-2">Available</span>#}
                                 </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                            {% if not request|if_admin %}
+                                <a class="dropdown-item" href="{% url 'VisitorsAdmin:usseraccount' %}"><i class="fas fa-user mr-2"></i>Account</a>
+                            {% endif %}
                                 <a class="dropdown-item" href="{% url 'VisitorsAdmin:logout_view' %}"><i class="fas fa-power-off mr-2"></i>Logout</a>
                             </div>
                         </li>
@@ -136,7 +139,14 @@
                                     <div id="submenu-48" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="">Delivery Regions</a>
+                                            {% if not request|if_admin %}
+                                                <a target="_blank" class="nav-link" href="{% url 'VisitorsAdmin:room_generated_pdf' %}">Rooms Booked</a>
+                                                <a target="_blank" class="nav-link" href="{% url 'VisitorsAdmin:conference_generated_pdf' %}">Conference Booked</a>
+                                            {% else %}
+                                                <a target="_blank" class="nav-link" href="{% url 'VisitorsAdmin:room_generated_pdfadmin' %}">Rooms Booked</a>
+                                                <a target="_blank" class="nav-link" href="{% url 'VisitorsAdmin:conference_generated_pdfadmin' %}">Conference Booked</a>
+                                            {% endif %}
+
                                         </li>
 
                                     </ul>
@@ -220,6 +230,12 @@
     <script src="{% static 'assets/libs/js/dashboard-ecommerce.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
 {% load sweetify %}
     {% sweetify %}
 

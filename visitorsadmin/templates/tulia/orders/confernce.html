@@ -128,7 +128,7 @@
                                  {% if conferences|length > 0 %}
                                     <div class="main-chart" id="line-chart" style="padding: 10px">
 
-                                       <table id="" class="example table table-striped table-bordered" style="">
+                                       <table id="myTable" class="example table table-striped table-bordered" style="">
                                             <thead>
                                                 <tr class="text-capitalize">
                                                     <th>#</th>
@@ -188,7 +188,11 @@
                                                                 {% if conference.status == 'AVAILABLE' %}
                                                                 <a href="{% url 'VisitorsAdmin:bookconference' conference.id %}"  class="btn btn-success"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>Book Conference</a>
                                                                 {% else %}
+                                                                    {% if request|if_user_has_booked_a_conference:conference.id %}
                                                                     <a href="{% url 'VisitorsAdmin:bookconference' conference.id %}"  class="btn btn-danger"><i class="fas fa-arrow-right" style="padding-right: 2px"></i>UnBook Conference</a>
+                                                                    {% else %}
+                                                                        <a href=""  class="btn btn-warning"><i class="fas fa-arrow-right" style="padding-right: 2px"></i> Conference is booked</a>
+                                                                    {% endif %}
                                                                 {% endif %}
                                                             {% endif %}
                                                         </td>

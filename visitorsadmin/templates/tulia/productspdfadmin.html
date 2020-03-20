@@ -1,5 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 {% load humanize %}
+{% load static %}
+        {% load humanize %}
+        {% load call_method %}
 <html lang="en">
     <head>
         <title>Room </title>
@@ -56,9 +59,9 @@
             }
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        {% load static %}
-        {% load humanize %}
-        {% load call_method %}
+        {% block layout_style %}
+            <style> @page { size: landscape; } </style>
+        {% endblock %}
     </head>
 
     <body>
@@ -85,7 +88,7 @@
                     {% for room in room_v %}
                     <tr class="text-center ">
                         <td class="tb-data">{{ forloop.counter }}</td>
-                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }}</td>
+                        <td class="tb-data">{{ room.visitor.first_name|title }} {{ room.visitor.last_name|title }}</td>
                         <td class="tb-data">{{ room.room.room_name }}</td>
                         <td class="tb-data">{{ room.room.room_number }}</td>
                         <td class="tb-data">{{ room.created_at|naturaltime }}</td>

@@ -1,0 +1,166 @@
+{% extends 'tulia/dashboard/dashboard.html' %}
+{% load humanize %}
+{% load static %}
+{% load call_method %}
+{% block content %}
+    <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">User Account</h2>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- ============================================================== -->
+                    <!-- basic table  -->
+                    <!-- ============================================================== -->
+
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">User Account
+
+                            </h5>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <form action="{% url 'VisitorsAdmin:usseraccountupdate' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="product-image ">
+                                                        {% if visitor.prof_image.url %}
+                                                         <img style="width: 100%;" src="{{ visitor.prof_image.url }}" alt="">
+                                                            {% else %}
+                                                             <img style="width: 100%;" src="{% static 'assets/images/noimages/fd0c559856ca991e9e28937dc802f0b0.png' %}" alt="">
+                                                        {% endif %}
+
+                                                    </div>
+                                                    <div class="form-group w-100">
+                                                                <input value="{{ visitor.prof_image }}" type="file" name="prof_image" id="inputFName" class="form-control" placeholder="Visitor's Profile image"  autofocus>
+                                                            </div>
+                                                    {% if visitor.prof_image == ''  %}
+                                                        <h4>Please update your profile image</h4>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-sm-9">
+{#                                                   <div class="col-sm-6">#}
+                                                       <div class="form-row">
+
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.first_name }}" type="text" name="first_name" id="inputFName" class="form-control" placeholder="Visitor's First Name" required autofocus>
+                                                            </div>
+
+
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.last_name }}" type="text" name="last_name" id="inputLName" class="form-control" placeholder="Visitor's Last Name" required autofocus>
+                                                            </div>
+
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.email }}" type="email" name="email" id="inputEmail" class="form-control" placeholder="Visitor's Email" required>
+                                                            </div>
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.username }}" type="text" name="username" id="username" class="form-control" placeholder="Visitor's Username" required>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group w-100">
+                                                                <input value="{{visitor.id_no}}" type="number" name="id_no" maxlength="8" id="inputid" class="form-control" placeholder="Visitor's ID number" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.phone_number }}" type="tel" name="phone_number" id="inputNumber" class="form-control" placeholder="Visitor's Mobile Number" required autofocus>
+                                                            </div>
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.person_to_meet }}" type="text" name="person_to_meet" id="inputPersonName" class="form-control" placeholder="Name of Person To Meet" required autofocus>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.date_from|date:'Y-m-d' }}" type="date" name="date_from" id="fromTime" class="form-control" placeholder="From time" required autofocus>
+                                                            </div>
+                                                            <div class="form-group w-100">
+                                                                <input value="{{ visitor.date_to|date:'Y-m-d' }}" type="date" name="date_to" id="toTime" class="form-control" placeholder="To time" required autofocus>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group large w-100">
+                                                                <textarea  rows="4" cols="41" name="address" class="form-control" id="inputAddress" placeholder="Visitor's Address here...">{{ visitor.address }}</textarea>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Update</button>
+                                                        </div>
+{#                                                   </div>#}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ============================================================== -->
+                    <!-- end basic table  -->
+                    <!-- ============================================================== -->
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+{% endblock content %}
+
+  {% block scripts %}
+      <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.blah')
+                            .attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+      </script>
+    {% endblock scripts %}

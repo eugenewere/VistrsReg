@@ -1,8 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 {% load humanize %}
+{% load static %}
+        {% load call_method %}
 <html lang="en">
     <head>
-        <title>Room </title>
+        <title>Conference </title>
         <style type="text/css">
             body {
                 font-weight: 200;
@@ -56,15 +58,17 @@
             }
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        {% load static %}
-        {% load humanize %}
-        {% load call_method %}
+        {% block layout_style %}
+
+        <style> @page { size: landscape; } </style>
+        {% endblock %}
+
     </head>
 
     <body>
         <div class='wrapper'>
             <div class='header'>
-                <p class='title'>Rooms ({{ room_v.count }}) </p>
+                <p class='title'>Conference ({{ conference_v.count }}) </p>
             </div>
             <div>
                 <img src="{% static 'sitelogo/websitetitlelogo.png' %}" alt="">
@@ -75,20 +79,26 @@
                 <thead >
                     <tr class="text-capitalize">
                         <th>#</th>
-                        <th>Visitor</th>
-                        <th>Room name</th>
-                        <th>Room number</th>
+                        <th>Visitor name</th>
+                        <th>Visitor email</th>
+                        <th>Visitor phone number</th>
+                        <th>Conference name</th>
+                        <th>Conference number</th>
+                        <th>Conference size</th>
                         <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for room in room_v %}
+                    {% for conference in conference_v %}
                     <tr class="text-center ">
-                        <td class="tb-data">{{ forloop.counter }}</td>
-                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }}</td>
-                        <td class="tb-data">{{ room.room.room_name }}</td>
-                        <td class="tb-data">{{ room.room.room_number }}</td>
-                        <td class="tb-data">{{ room.created_at|naturaltime }}</td>
+                        <td class="tb-data" style="width:19px;">{{ forloop.counter }}</td>
+                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }} </td>
+                        <td class="tb-data" style="width: 200px;">{{ conference.visitor.email }} </td>
+                        <td class="tb-data">{{ conference.visitor.phone_number }} </td>
+                        <td class="tb-data">{{ conference.conference.conference_name }}</td>
+                        <td class="tb-data">{{ conference.conference.conference_number }}</td>
+                        <td class="tb-data">{{ conference.conference.size }}</td>
+                        <td class="tb-data">{{ conference.created_at|naturaltime }}</td>
 
                     </tr>
                     {% endfor %}

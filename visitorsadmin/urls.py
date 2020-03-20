@@ -47,5 +47,18 @@ urlpatterns = [
     path('bookconference<int:conference_id>', views.bookconference, name='bookconference'),
 
 
+    path('roompdf/', views.myroompdf, name='room_generated_pdf'),
+    path('roompdfadmin/', views.myroompdfadmin, name='room_generated_pdfadmin'),
+    path('conferencepdf/', views.myconferencepdf, name='conference_generated_pdf'),
+    path('conferencepdfadmin/', views.myconferencepdfadmin, name='conference_generated_pdfadmin'),
+
+
+
+    path('usseraccount/', views.usseraccount, name='usseraccount'),
+    path('usseraccountupdate/', views.usseraccountupdate, name='usseraccountupdate'),
+
+
+
+
 
 ]

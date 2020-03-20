@@ -28,6 +28,26 @@ class RegisterVisitorForm(UserCreationForm):
                   'date_to',
                   'address'
                   ]
+
+class RegisterVisitorUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Visitor
+        fields = ['prof_image',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'email',
+                  'username',
+                  'id_no',
+                  'phone_number',
+                  'person_to_meet',
+                  'date_from',
+                  'date_to',
+                  'address'
+                  ]
+
+
 class MessageVisitorForm(forms.ModelForm):
 
     class Meta:
