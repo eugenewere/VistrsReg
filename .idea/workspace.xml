@@ -2,26 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32986068-bd44-4d2a-9ea0-777ed3322c7d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdf2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdfadmin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdfadmin2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visitorsadmin/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/visitorsrecording.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/visitorsrecording.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/dashboard/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/dashboard/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/confernce.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/confernce.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/messages.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/new_orders.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/new_orders.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/visitors.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders/visitors.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/product/carousel.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/product/carousel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/templatetags/call_method.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templatetags/call_method.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsadmin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsfront/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsfront/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visitorsfront/templates/mainindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsfront/templates/mainindex.html" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,12 +58,18 @@
   </component>
   <component name="ProjectId" id="1ZFMyIsv6Ago293K324lCUm4418" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/visitorsadmin/templates/tulia/orders" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -96,18 +87,6 @@
       <recent name="C:\myprojectx\douglas\visitorsrecording\visitorsadmin\static\assets" />
       <recent name="C:\myprojectx\douglas\visitorsrecording\visitorsadmin\static\assets\images\noimages" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="visitorsrecording" type="Python.DjangoServer" factoryName="Django server">
@@ -134,16 +113,6 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand />
-          <select />
-        </treeState>
-      </serviceView>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -156,24 +125,34 @@
       <updated>1584430641603</updated>
       <workItem from="1584430643190" duration="36150000" />
       <workItem from="1584478220807" duration="59937000" />
-      <workItem from="1584734012621" duration="10603000" />
+      <workItem from="1584734012621" duration="11255000" />
+      <workItem from="1597497735608" duration="1313000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="462" y="154" key="FileChooserDialogImpl" timestamp="1597498076655">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state x="462" y="154" key="FileChooserDialogImpl/0.30.1366.738@0.30.1366.738" timestamp="1597498076655" />
+    <state x="225" y="45" key="SettingsEditor" timestamp="1597498698104">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state x="225" y="45" key="SettingsEditor/0.30.1366.738@0.30.1366.738" timestamp="1597498698104" />
   </component>
 </project>
