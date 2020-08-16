@@ -54,6 +54,7 @@
                 background-size: cover;
                 border-radius: 10px;
             }
+
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         {% load static %}
@@ -67,14 +68,14 @@
                 <p class='title'>Rooms ({{ room_v.count }}) </p>
             </div>
             <div>
-                <img src="{% static 'sitelogo/websitetitlelogo.png' %}" alt="">
+{#                <img src="{% get_static_prefix %}'sitelogo/websitetitlelogo.png'" alt="">#}
             </div>
         <div>
         <div class="details">
             <table id="example" class="table table-striped table-bordered" style="">
                 <thead >
                     <tr class="text-capitalize">
-                        <th>#</th>
+                        <th style="width: 14px;">#</th>
                         <th>Visitor</th>
                         <th>Room name</th>
                         <th>Room number</th>
@@ -84,8 +85,8 @@
                 <tbody>
                     {% for room in room_v %}
                     <tr class="text-center ">
-                        <td class="tb-data">{{ forloop.counter }}</td>
-                        <td class="tb-data">{{ conference.visitor.first_name }} {{ conference.visitor.last_name }}</td>
+                        <td class="tb-data" style="width: 14px;">{{ forloop.counter }}</td>
+                        <td class="tb-data">{{ request.user.first_name|capfirst }} {{ request.user.last_name|capfirst }}</td>
                         <td class="tb-data">{{ room.room.room_name }}</td>
                         <td class="tb-data">{{ room.room.room_number }}</td>
                         <td class="tb-data">{{ room.created_at|naturaltime }}</td>

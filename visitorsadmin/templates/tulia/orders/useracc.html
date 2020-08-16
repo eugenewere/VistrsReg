@@ -41,9 +41,9 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="product-image ">
-                                                        {% if visitor.prof_image.url %}
+                                                        {% if visitor.prof_image %}
                                                          <img style="width: 100%;" src="{{ visitor.prof_image.url }}" alt="">
-                                                            {% else %}
+                                                        {% else %}
                                                              <img style="width: 100%;" src="{% static 'assets/images/noimages/fd0c559856ca991e9e28937dc802f0b0.png' %}" alt="">
                                                         {% endif %}
 

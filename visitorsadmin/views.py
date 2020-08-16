@@ -1,3 +1,7 @@
+from html import escape
+
+from contextvars import Context
+
 import sweetify
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -7,13 +11,54 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.template.loader import get_template
+from django.template import RequestContext
+from django.template.loader import get_template, render_to_string
 from django.views.generic.base import View
+from xhtml2pdf import pisa
 
 from visitorsadmin.forms import *
 from visitorsadmin.utils import render_to_pdf
 from visitorsfront.forms import *
 from visitorsrecording import settings
+
+import os
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+
+
+def link_callback(uri, rel):
+            """
+            Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+            resources
+            """
+            result = finders.find(uri)
+            if result:
+                    if not isinstance(result, (list, tuple)):
+                            result = [result]
+                    result = list(os.path.realpath(path) for path in result)
+                    path=result[0]
+            else:
+                    sUrl = settings.STATIC_URL        # Typically /static/
+                    sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+                    mUrl = settings.MEDIA_URL         # Typically /media/
+                    mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+                    if uri.startswith(mUrl):
+                            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+                    elif uri.startswith(sUrl):
+                            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+                    else:
+                            return uri
+
+            # make sure that file exists
+            if not os.path.isfile(path):
+                    raise Exception(
+                            'media URI must start with %s or %s' % (sUrl, mUrl)
+                    )
+            return path
 
 
 def home(request):
@@ -651,50 +696,91 @@ def replymessages(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
 def myroompdf(request):
     user = request.user.id
-    print(user)
     visitor = Visitor.objects.filter(user_ptr_id=user).first()
-    print(visitor)
     room_v = Room_visitor.objects.filter(visitor=visitor).order_by('-created_at')
-    template = get_template('tulia/productspdf.html')
+
+    template_path = 'tulia/productspdf.html'
     context = {
         'room_v': room_v,
+        'request':request,
     }
-    html = template.render(context)
     pdf = render_to_pdf('tulia/productspdf.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
-        content = "inline; filename='%s'" % (filename)
-        # download = request.GET.get("download")
-        response['Content-Disposition'] = content
-        # if download:
-        #     content = "attachment; filename='%s'" % (filename)
-        return pdf
-    return HttpResponse("Not found")
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
 
 
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+
+# def myroompdf(request):
+#     user = request.user.id
+#     visitor = Visitor.objects.filter(user_ptr_id=user).first()
+#     room_v = Room_visitor.objects.filter(visitor=visitor).order_by('-created_at')
+#
+#     template = get_template('tulia/productspdf.html')
+#     context = {
+#         'room_v': room_v,
+#     }
+#     html = template.render(context)
+#     pdf = render_to_pdf('tulia/productspdf.html', context)
+#
+#     if pdf:
+#         response = HttpResponse(pdf, content_type='application/pdf')
+#         filename = "Visitor_room_booking_%s.pdf" % ("12341231")
+#         content = "inline; filename='%s'" % (filename)
+#         # download = request.GET.get("download")
+#         response['Content-Disposition'] = content
+#         # if download:
+#         #     content = "attachment; filename='%s'" % (filename)
+#         return pdf
+#     return HttpResponse("Not found")
 def myroompdfadmin(request):
     user = request.user.id
 
+    visitor = Visitor.objects.filter(user_ptr_id=user).first()
     room_v = Room_visitor.objects.order_by('-created_at')
-    template = get_template('tulia/productspdfadmin.html')
+    template_path = 'tulia/productspdfadmin.html'
     context = {
         'room_v': room_v,
+        'request':request,
     }
+    pdf = render_to_pdf('tulia/productspdf.html', context)
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
     html = template.render(context)
-    pdf = render_to_pdf('tulia/productspdfadmin.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
-        content = "inline; filename='%s'" % (filename)
-        # download = request.GET.get("download")
-        response['Content-Disposition'] = content
-        # if download:
-        #     content = "attachment; filename='%s'" % (filename)
-        return pdf
-    return HttpResponse("Not found")
+
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
 
@@ -706,43 +792,58 @@ def myconferencepdf(request):
     visitor = Visitor.objects.filter(user_ptr_id=user).first()
     print(visitor)
     conference_v = Conference_visitor.objects.filter(visitor=visitor).order_by('-created_at')
-    template = get_template('tulia/productspdf2.html')
+    # template = get_template('tulia/productspdf2.html')
+    template_path = 'tulia/productspdf2.html'
     context = {
         'conference_v': conference_v,
+        'request': request,
     }
+    pdf = render_to_pdf('tulia/productspdf.html', context)
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
     html = template.render(context)
-    pdf = render_to_pdf('tulia/productspdf2.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
-        content = "inline; filename='%s'" % (filename)
-        # download = request.GET.get("download")
-        response['Content-Disposition'] = content
-        # if download:
-        #     content = "attachment; filename='%s'" % (filename)
-        return pdf
-    return HttpResponse("Not found")
 
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 def myconferencepdfadmin(request):
 
     conference_v = Conference_visitor.objects.order_by('-created_at')
-    template = get_template('tulia/productspdfadmin2.html')
+    # template = get_template('tulia/productspdfadmin2.html')
+    template_path = 'tulia/productspdfadmin2.html'
     context = {
         'conference_v': conference_v,
+        'request': request,
     }
+    pdf = render_to_pdf('tulia/productspdf.html', context)
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
     html = template.render(context)
-    pdf = render_to_pdf('tulia/productspdfadmin2.html', context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Invoice_%s.pdf" % ("12341231")
-        content = "inline; filename='%s'" % (filename)
-        # download = request.GET.get("download")
-        response['Content-Disposition'] = content
-        # if download:
-        #     content = "attachment; filename='%s'" % (filename)
-        return pdf
-    return HttpResponse("Not found")
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+
+
+
+
+
+
+
 
 
 def usseraccount(request):
