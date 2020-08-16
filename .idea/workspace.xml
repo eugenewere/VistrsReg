@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdf2.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/templates/tulia/productspdf2.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/visitorsadmin/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/visitorsadmin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsadmin/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visitorsfront/templates/mainindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/visitorsfront/templates/mainindex.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +110,7 @@
       <workItem from="1584478220807" duration="59937000" />
       <workItem from="1584734012621" duration="11255000" />
       <workItem from="1597497735608" duration="2100000" />
-      <workItem from="1597570763846" duration="16578000" />
+      <workItem from="1597570763846" duration="16789000" />
     </task>
     <servers />
   </component>
