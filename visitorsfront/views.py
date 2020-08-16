@@ -36,7 +36,7 @@ def register(request):
         sweetify.success(request, 'Successfully Registered', timer=3000)
         form.save()
     else:
-        sweetify.error(request, title='Error' 'Please correct the errors and continue', button='ok', timer=5000)
+        sweetify.error(request, title='Error' 'Please correct the errors and continue '+str(form.error_messages), button='ok', timer=5000)
     carousels = Carousel.objects.all()
     context = {
         'form': RegisterVisitorForm(request.POST),
