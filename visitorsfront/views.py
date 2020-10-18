@@ -22,6 +22,7 @@ from visitorsfront.models import *
 
 def home(request):
     carousels = Carousel.objects.all()
+    print(carousels)
     context = {
         'carousels':carousels,
     }
@@ -38,6 +39,7 @@ def register(request):
     else:
         sweetify.error(request, title='Error' 'Please correct the errors and continue '+str(form.error_messages), button='ok', timer=5000)
     carousels = Carousel.objects.all()
+
     context = {
         'form': RegisterVisitorForm(request.POST),
         'carousels': carousels,

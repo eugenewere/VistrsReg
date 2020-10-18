@@ -211,14 +211,15 @@ def bookroom(request, room_id):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [visitor.email, ]
         subject = 'BOOKED ROOM'
-        body = 'You have booked room ' +room.room_name+ ' with room number ' +room.room_number +', ENJOY'
+        body = 'You have booked room ' +str(room.room_name)+ ' with room number ' + str(room.room_number) +', ENJOY'
         try:
+
             k = send_mail(
                 subject=subject,
                 message=body,
                 from_email=email_from,
                 recipient_list=recipient_list,
-
+                auth_password=settings.EMAIL_HOST_PASSWORD
             )
         except:
             print('k')
@@ -246,6 +247,7 @@ def bookroom(request, room_id):
                 message=body,
                 from_email=email_from,
                 recipient_list=recipient_list,
+                auth_password=settings.EMAIL_HOST_PASSWORD
 
             )
         except:
@@ -281,6 +283,7 @@ def bookconference(request, conference_id):
                 message=body,
                 from_email=email_from,
                 recipient_list=recipient_list,
+                auth_password=settings.EMAIL_HOST_PASSWORD
 
             )
         except:
@@ -312,6 +315,7 @@ def bookconference(request, conference_id):
                 message=body,
                 from_email=email_from,
                 recipient_list=recipient_list,
+                auth_password=settings.EMAIL_HOST_PASSWORD
 
             )
         except:
@@ -684,7 +688,7 @@ def replymessages(request):
             message=body,
             from_email=email_from,
             recipient_list=recipient_list,
-
+            auth_password=settings.EMAIL_HOST_PASSWORD
         )
         print(k)
         sweetify.success(request, 'Successfully sent', timer=3000)
